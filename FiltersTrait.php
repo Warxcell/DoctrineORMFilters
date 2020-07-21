@@ -80,7 +80,7 @@ trait FiltersTrait
 
     public function countByFilters($filterBy): int
     {
-        return $this
+        return (int)$this
             ->createQueryBuilderByFilters('entity', $filterBy)
             ->select('COUNT(entity)')
             ->getQuery()
