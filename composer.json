@@ -1,0 +1,15 @@
+{
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^7.4",
+        "doctrine/orm": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "DoctrineORMFilters\\": ""
+        }
+    },
+    "name": "arxy/doctrine-orm-filters",
+    "description": "The missing ORM Filters Library."
+}
