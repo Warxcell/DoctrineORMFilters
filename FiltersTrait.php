@@ -22,7 +22,7 @@ trait FiltersTrait
         return $this->filters;
     }
 
-    private function getFilter($name)
+    private function getFilter($name): callable
     {
         $this->createFilters();
 
@@ -46,7 +46,7 @@ trait FiltersTrait
         return $queryBuilder;
     }
 
-    public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, $value)
+    public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, $value): bool
     {
         $queryBuilderId = spl_object_id($queryBuilder);
         if (isset($this->appendedFilters[$queryBuilderId][$filterName])) {
@@ -78,7 +78,7 @@ trait FiltersTrait
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
-    public function countByFilters($filterBy)
+    public function countByFilters($filterBy): int
     {
         return $this
             ->createQueryBuilderByFilters('entity', $filterBy)

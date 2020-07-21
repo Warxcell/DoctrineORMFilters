@@ -54,16 +54,22 @@ $questionsCount = $repository->countByFilters([
 ]);
 
 // or finds one result by filter (uses internal ->getOneOrNullResult(); of QueryBuilder)
-
-$question = $repository->findOneByFilters([
-    'filterName' => 5
-]);
+try {
+    $question = $repository->findOneByFilters([
+        'filterName' => 5
+    ]);
+} catch (\Doctrine\ORM\NonUniqueResultException $exception) {
+// Exactly one result was expected, 1+ found.
+}
 
 // or finds one result by filter (uses internal ->getSingleResult(); of QueryBuilder)
-
-$question = $repository->getSingleResultByFilters([
-    'filterName' => 5
-]);
+try {
+    $question = $repository->getSingleResultByFilters([
+        'filterName' => 5
+    ]);
+} catch (\Doctrine\ORM\NoResultException $exception) {
+// Question wasn't found
+}
 
 // you can even create your own QueryBuilder and manually append filters to it.
 
