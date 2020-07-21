@@ -49,7 +49,7 @@ $questions = $repository->findByFilters([
 
 // or counts by filter
 
-$questions = $repository->countByFilters([
+$questionsCount = $repository->countByFilters([
     'filterName' => 5
 ]);
 
