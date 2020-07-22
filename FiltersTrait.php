@@ -73,12 +73,12 @@ trait FiltersTrait
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getResult();
     }
 
-    public function getSingleResultByFilters($filterBy)
+    public function getSingleResultByFilters(array $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
-    public function countByFilters($filterBy): int
+    public function countByFilters(array $filterBy): int
     {
         return (int)$this
             ->createQueryBuilderByFilters('entity', $filterBy)
