@@ -8,7 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 
 trait FiltersTrait
 {
-    private array $appendedFilters = [];
     private array $filters;
 
     abstract public function getFilters(): array;
@@ -38,6 +37,7 @@ trait FiltersTrait
     public function createQueryBuilderByFilters($alias, $filterBy): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder($alias);
+        $queryBuilder->filters = [];
 
         foreach ($filterBy as $filter => $value) {
             $this->appendFilter($queryBuilder, $alias, $filter, $value);
@@ -48,8 +48,7 @@ trait FiltersTrait
 
     public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, $value): bool
     {
-        $queryBuilderId = spl_object_id($queryBuilder);
-        if (isset($this->appendedFilters[$queryBuilderId][$filterName])) {
+        if (isset($queryBuilder->filters[$filterName])) {
             return false;
         }
 
@@ -60,7 +59,7 @@ trait FiltersTrait
             call_user_func_array($filter, [$queryBuilder, $alias, $value]);
         }
 
-        return $this->appendedFilters[$queryBuilderId][$filterName] = true;
+        return $queryBuilder->filters[$filterName] = true;
     }
 
     public function findOneByFilters(array $filterBy)
