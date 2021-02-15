@@ -7,7 +7,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DoctrineORMFilters\\": ""
+            "Arxy\\DoctrineORMFilters\\": ""
         }
     },
     "name": "arxy/doctrine-orm-filters",

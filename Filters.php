@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace DoctrineORMFilters;
+namespace Arxy\DoctrineORMFilters;
 
 use Doctrine\ORM\QueryBuilder;
 
-trait FiltersTrait
+trait Filters
 {
     private array $filters;
 

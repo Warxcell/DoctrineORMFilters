@@ -1,8 +1,11 @@
-# Do you want the power of reusable queries? 
+# Do you want the power of reusable queries?
+
 ## You are in right place!
+
 ## DoctrineORMFilters exposes very simple but powerful API.
 
 ### Install library and create your first filter
+
 ```php
 <?php
 declare(strict_types=1);
@@ -14,7 +17,7 @@ use Doctrine\ORM\QueryBuilder;
 
 class QuestionRepository extends EntityRepository
 {
-    use FiltersTrait;
+    use \Arxy\DoctrineORMFilters\Filters;
 
     public function getFilters(): array
     {
@@ -31,7 +34,7 @@ class QuestionRepository extends EntityRepository
 }
 ```
 
-### Then you can use all of these methods 
+### Then you can use all of these methods
 
 ```php
 // Create Query builder by filter and returns it for further modification, or pagination
@@ -80,6 +83,7 @@ $questions = $qb->getQuery()->getResult();
 ```
 
 ### You can also have filters that calls other filters
+
 ```php
 <?php
 declare(strict_types=1);
@@ -115,6 +119,7 @@ class QuestionRepository extends EntityRepository
     }
 }
 ```
+
 Please note: It's important to use `appendFilter` method, since it will not append same filter twice!
 
 ### You can even appendFilter from other repositories. Let's say we have this scenario:
