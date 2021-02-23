@@ -32,6 +32,7 @@ trait Filters
         return $this->filters[$name];
     }
 
+    /** @return QueryBuilder */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
     public function createQueryBuilderByFilters($alias, $filterBy): QueryBuilder
