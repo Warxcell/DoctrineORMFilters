@@ -2,7 +2,7 @@
     "type": "library",
     "license": "proprietary",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 | ^8.0",
         "doctrine/orm": "*"
     },
     "autoload": {
