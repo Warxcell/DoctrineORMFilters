@@ -23,6 +23,9 @@ class FiltersTest extends TestCase
 
         $this->filters->method('getFilters')->willReturn(
             [
+                'array' => function (QueryBuilder $queryBuilder, string $alias, ...$values) {
+                    $this->assertEquals([new \stdClass(), new \stdClass()], $values);
+                },
                 'filterSingleValue' => function (QueryBuilder $queryBuilder, string $alias, int $value) {
                     $this->assertSame(1, $value);
                 },
@@ -48,6 +51,7 @@ class FiltersTest extends TestCase
             [
                 'filterSingleValue' => 1,
                 'filterMultiValue' => [2, 'value2'],
+                'array' => [new \stdClass(), new \stdClass()],
             ],
             'indexBy'
         );
