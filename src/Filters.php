@@ -35,13 +35,16 @@ trait Filters
     /** @return QueryBuilder */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
-    public function createQueryBuilderByFilters($alias, $filterBy): QueryBuilder
+    public function createQueryBuilderByFilters(string $alias, array $filterBy, $indexBy = null): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder($alias);
+        $queryBuilder = $this->createQueryBuilder($alias, $indexBy);
         $queryBuilder->filters = [];
 
         foreach ($filterBy as $filter => $values) {
-            $this->appendFilter($queryBuilder, $alias, $filter, $values);
+            if (!is_array($values)) {
+                $values = [$values];
+            }
+            $this->appendFilter($queryBuilder, $alias, $filter, ...$values);
         }
 
         return $queryBuilder;

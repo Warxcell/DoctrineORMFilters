@@ -6,10 +6,12 @@ namespace Arxy\DoctrineORMFilters\Tests;
 
 use Arxy\DoctrineORMFilters\Filters;
 use Doctrine\ORM\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 
-class FiltersTest extends \PHPUnit\Framework\TestCase
+class FiltersTest extends TestCase
 {
     private QueryBuilder $queryBuilder;
+    /** @var Filters */
     private $filters;
 
     public function setUp(): void
@@ -24,7 +26,7 @@ class FiltersTest extends \PHPUnit\Framework\TestCase
                 'filterSingleValue' => function (QueryBuilder $queryBuilder, string $alias, int $value) {
                     $this->assertSame(1, $value);
                 },
-                'filterSingleMultiValue' => function (
+                'filterMultiValue' => function (
                     QueryBuilder $queryBuilder,
                     string $alias,
                     int $value,
@@ -35,6 +37,22 @@ class FiltersTest extends \PHPUnit\Framework\TestCase
                 },
             ]
         );
+    }
+
+    public function testFindByFilters()
+    {
+        $this->filters->expects($this->once())->method('createQueryBuilder')->with('alias', 'indexBy');
+
+        $qb = $this->filters->createQueryBuilderByFilters(
+            'alias',
+            [
+                'filterSingleValue' => 1,
+                'filterMultiValue' => [2, 'value2'],
+            ],
+            'indexBy'
+        );
+
+        $this->assertSame($this->queryBuilder, $qb);
     }
 
     public function testCallable()
@@ -49,13 +67,13 @@ class FiltersTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSingleValueFilter()
+    public function testApendSingleValueFilter()
     {
         $this->filters->appendFilter($this->queryBuilder, 'alias', 'filterSingleValue', 1);
     }
 
-    public function testMultiValueFilter()
+    public function testApendFilterMultiValueFilter()
     {
-        $this->filters->appendFilter($this->queryBuilder, 'alias', 'filterSingleMultiValue', 2, 'value2');
+        $this->filters->appendFilter($this->queryBuilder, 'alias', 'filterMultiValue', 2, 'value2');
     }
 }

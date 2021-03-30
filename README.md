@@ -190,6 +190,14 @@ class AnswerRepository extends EntityRepository
 ### You can also pass multiple arguments:
 
 ```php
+$qb = $repository->createQueryBuilderByFilters('question', [
+    'filterName' => ['value1', 'value2']
+]);
+```
+
+or when appending filter
+
+```php
   $this->appendFilter($queryBuilder, $alias, 'filterMultiValue', 'value1', 'value2');
 
 
