@@ -198,18 +198,12 @@ $qb = $repository->createQueryBuilderByFilters('question', [
 or when appending filter
 
 ```php
-  $this->appendFilter($queryBuilder, $alias, 'filterMultiValue', 'value1', 'value2');
+$this->appendFilter($queryBuilder, $alias, 'filterMultiValue', 'value1', 'value2');
 
-
-  $filters = [
-  'filterSingleMultiValue' => function (
-            \Doctrine\ORM\QueryBuilder $queryBuilder,
-            string $alias,
-            string $value1,
-            string $value2
-        ) {
+$filters = [
+  'filterSingleMultiValue' => function (QueryBuilder $queryBuilder, string $alias, string $value1, string $value2) {
           
-        },
+   },
 ];
 ```
 
