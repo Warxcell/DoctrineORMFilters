@@ -187,6 +187,24 @@ class AnswerRepository extends EntityRepository
 }
 ```
 
+### You can also pass multiple arguments:
+
+```php
+  $this->appendFilter($queryBuilder, $alias, 'filterMultiValue', 'value1', 'value2');
+
+
+  $filters = [
+  'filterSingleMultiValue' => function (
+            \Doctrine\ORM\QueryBuilder $queryBuilder,
+            string $alias,
+            string $value1,
+            string $value2
+        ) {
+          
+        },
+];
+```
+
 ### And finally you can pass Callback as Filter value.
 
 ```php

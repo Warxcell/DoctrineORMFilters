@@ -40,24 +40,24 @@ trait Filters
         $queryBuilder = $this->createQueryBuilder($alias);
         $queryBuilder->filters = [];
 
-        foreach ($filterBy as $filter => $value) {
-            $this->appendFilter($queryBuilder, $alias, $filter, $value);
+        foreach ($filterBy as $filter => $values) {
+            $this->appendFilter($queryBuilder, $alias, $filter, $values);
         }
 
         return $queryBuilder;
     }
 
-    public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, $value): bool
+    public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, ...$values): bool
     {
         if (isset($queryBuilder->filters[$filterName])) {
             return false;
         }
 
-        if (is_callable($value)) {
-            call_user_func_array($value, [$queryBuilder, $alias]);
+        if (count($values) === 1 && is_callable($values[0])) {
+            call_user_func_array($values[0], [$queryBuilder, $alias]);
         } else {
             $filter = $this->getFilter($filterName);
-            call_user_func_array($filter, [$queryBuilder, $alias, $value]);
+            call_user_func_array($filter, [$queryBuilder, $alias, ...$values]);
         }
 
         return $queryBuilder->filters[$filterName] = true;
