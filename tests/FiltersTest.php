@@ -23,7 +23,7 @@ class FiltersTest extends TestCase
 
         $this->filters->method('getFilters')->willReturn(
             [
-                'array' => function (QueryBuilder $queryBuilder, string $alias, ...$values) {
+                'array' => function (QueryBuilder $queryBuilder, string $alias, \stdClass ...$values) {
                     $this->assertEquals([new \stdClass(), new \stdClass()], $values);
                 },
                 'filterSingleValue' => function (QueryBuilder $queryBuilder, string $alias, int $value) {
@@ -71,12 +71,12 @@ class FiltersTest extends TestCase
         );
     }
 
-    public function testApendSingleValueFilter()
+    public function testAppendSingleValueFilter()
     {
         $this->filters->appendFilter($this->queryBuilder, 'alias', 'filterSingleValue', 1);
     }
 
-    public function testApendFilterMultiValueFilter()
+    public function testAppendFilterMultiValueFilter()
     {
         $this->filters->appendFilter($this->queryBuilder, 'alias', 'filterMultiValue', 2, 'value2');
     }
