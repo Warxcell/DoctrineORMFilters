@@ -35,7 +35,7 @@ trait Filters
     /** @return QueryBuilder */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
-    public function createQueryBuilderByFilters(string $alias, array $filterBy, $indexBy = null): QueryBuilder
+    public function createQueryBuilderByFilters(string $alias, iterable $filterBy, string $indexBy = null): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder($alias, $indexBy);
         $queryBuilder->filters = [];
@@ -66,22 +66,22 @@ trait Filters
         return $queryBuilder->filters[$filterName] = true;
     }
 
-    public function findOneByFilters(array $filterBy)
+    public function findOneByFilters(iterable $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getOneOrNullResult();
     }
 
-    public function findByFilters(array $filterBy)
+    public function findByFilters(iterable $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getResult();
     }
 
-    public function getSingleResultByFilters(array $filterBy)
+    public function getSingleResultByFilters(iterable $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
-    public function countByFilters(array $filterBy): int
+    public function countByFilters(iterable $filterBy): int
     {
         return (int)$this
             ->createQueryBuilderByFilters('entity', $filterBy)
