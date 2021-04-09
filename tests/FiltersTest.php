@@ -42,7 +42,7 @@ class FiltersTest extends TestCase
         );
     }
 
-    public function testFindByFilters()
+    public function testCreateQueryBuilderByFilters()
     {
         $this->filters->expects($this->once())->method('createQueryBuilder')->with('alias', 'indexBy');
 
