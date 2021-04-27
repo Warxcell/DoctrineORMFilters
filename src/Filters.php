@@ -66,6 +66,9 @@ trait Filters
         return $queryBuilder->filters[$filterName] = true;
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findOneByFilters(iterable $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getOneOrNullResult();
@@ -76,11 +79,19 @@ trait Filters
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getResult();
     }
 
+    /**
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function getSingleResultByFilters(iterable $filterBy)
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
+    /**
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function countByFilters(iterable $filterBy): int
     {
         return (int)$this
