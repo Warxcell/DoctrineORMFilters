@@ -66,32 +66,22 @@ trait Filters
         return $queryBuilder->filters[$filterName] = true;
     }
 
-    /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function findOneByFilters(iterable $filterBy)
+    public function findOneByFilters(iterable $filterBy): ?object
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getOneOrNullResult();
     }
 
-    public function findByFilters(iterable $filterBy)
+    public function findByFilters(iterable $filterBy): array
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getResult();
     }
 
-    /**
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    public function getSingleResultByFilters(iterable $filterBy)
+    public function getSingleResultByFilters(iterable $filterBy): object
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
-    /**
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
+
     public function countByFilters(iterable $filterBy): int
     {
         return (int)$this
