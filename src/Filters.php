@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace Arxy\DoctrineORMFilters;
 
 use Doctrine\ORM\QueryBuilder;
+use InvalidArgumentException;
+
+use function call_user_func_array;
+use function count;
+use function is_array;
+use function is_callable;
 
 trait Filters
 {
@@ -26,7 +32,7 @@ trait Filters
         $this->createFilters();
 
         if (!isset($this->filters[$name])) {
-            throw new \InvalidArgumentException('Filter '.$name.' for '.get_class($this).' does not exists');
+            throw new InvalidArgumentException('Filter ' . $name . ' for ' . get_class($this) . ' does not exists');
         }
 
         return $this->filters[$name];
@@ -80,7 +86,6 @@ trait Filters
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
-
 
     public function countByFilters(iterable $filterBy): int
     {

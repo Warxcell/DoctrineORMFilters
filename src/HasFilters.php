@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arxy\DoctrineORMFilters;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 
 interface HasFilters
@@ -17,17 +19,21 @@ interface HasFilters
     public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, ...$values): bool;
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findOneByFilters(iterable $filterBy): ?object;
 
     public function findByFilters(iterable $filterBy): array;
 
     /**
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function getSingleResultByFilters(iterable $filterBy): object;
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function countByFilters(iterable $filterBy): int;
 }
