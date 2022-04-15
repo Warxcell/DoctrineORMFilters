@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Arxy\DoctrineORMFilters;
 
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 
@@ -12,10 +14,17 @@ use function count;
 use function is_array;
 use function is_callable;
 
+/**
+ * @template T of string
+ * @template V of object
+ */
 trait Filters
 {
     private array $filters;
 
+    /**
+     * @return array<T, Closure(QueryBuilder, string, mixed=): void>
+     */
     abstract public function getFilters(): array;
 
     private function createFilters(): array
@@ -27,7 +36,10 @@ trait Filters
         return $this->filters;
     }
 
-    private function getFilter($name): callable
+    /**
+     * @param T $name
+     */
+    private function getFilter(string $name): callable
     {
         $this->createFilters();
 
@@ -41,6 +53,9 @@ trait Filters
     /** @return QueryBuilder */
     abstract public function createQueryBuilder($alias, $indexBy = null);
 
+    /**
+     * @param iterable<T, mixed> $filterBy
+     */
     public function createQueryBuilderByFilters(string $alias, iterable $filterBy, string $indexBy = null): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder($alias, $indexBy);
@@ -56,6 +71,9 @@ trait Filters
         return $queryBuilder;
     }
 
+    /**
+     * @param T $filterName
+     */
     public function appendFilter(QueryBuilder $queryBuilder, string $alias, string $filterName, ...$values): bool
     {
         if (isset($queryBuilder->filters[$filterName])) {
@@ -72,21 +90,39 @@ trait Filters
         return $queryBuilder->filters[$filterName] = true;
     }
 
+    /**
+     * @param iterable<T, mixed> $filterBy
+     * @return V | null
+     * @throws NonUniqueResultException
+     */
     public function findOneByFilters(iterable $filterBy): ?object
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * @param iterable<T, mixed> $filterBy
+     * @return V[]
+     */
     public function findByFilters(iterable $filterBy): array
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getResult();
     }
 
+    /**
+     * @param iterable<T, mixed> $filterBy
+     * @return V
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function getSingleResultByFilters(iterable $filterBy): object
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->getQuery()->getSingleResult();
     }
 
+    /**
+     * @param iterable<T, mixed> $filterBy
+     */
     public function countByFilters(iterable $filterBy): int
     {
         return (int)$this
