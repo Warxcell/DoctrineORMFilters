@@ -80,7 +80,7 @@ trait Filters
             return false;
         }
 
-        if (count($values) === 1 && is_callable($values[0])) {
+        if (count($values) === 1 && $values[0] instanceof \Closure) {
             call_user_func_array($values[0], [$queryBuilder, $alias]);
         } else {
             $filter = $this->getFilter($filterName);
