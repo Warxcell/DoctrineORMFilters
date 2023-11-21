@@ -13,16 +13,6 @@ use Doctrine\ORM\QueryBuilder;
 trait RepositoryFilters
 {
     /**
-     * @var Filters
-     */
-    private array $filters;
-
-    public function __construct()
-    {
-        $this->filters = $this->getFilters();
-    }
-
-    /**
      * @return Filters
      */
     abstract protected function getFilters(): array;
@@ -39,7 +29,7 @@ trait RepositoryFilters
     ): FilterQueryBuilder {
         $queryBuilder = $this->createQueryBuilder($alias, $indexBy);
 
-        $filterQb = new FilterQueryBuilder($queryBuilder, $alias, $this->filters);
+        $filterQb = new FilterQueryBuilder($queryBuilder, $alias, $this->getFilters());
 
         foreach ($filterBy as $filter => $value) {
             $filterQb->appendFilter($filter, $value);
