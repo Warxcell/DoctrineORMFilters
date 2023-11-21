@@ -7,6 +7,8 @@ namespace Arxy\DoctrineORMFilters;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 
+use function is_array;
+
 /**
  * @phpstan-import-type Filters from FilterQueryBuilder
  */
@@ -32,7 +34,10 @@ trait RepositoryFilters
         $filterQb = new FilterQueryBuilder($queryBuilder, $alias, $this->getFilters());
 
         foreach ($filterBy as $filter => $value) {
-            $filterQb->appendFilter($filter, ...((array)$value));
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            $filterQb->appendFilter($filter, ...$value);
         }
 
         return $filterQb;
