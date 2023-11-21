@@ -32,7 +32,7 @@ trait RepositoryFilters
         $filterQb = new FilterQueryBuilder($queryBuilder, $alias, $this->getFilters());
 
         foreach ($filterBy as $filter => $value) {
-            $filterQb->appendFilter($filter, $value);
+            $filterQb->appendFilter($filter, ...((array)$value));
         }
 
         return $filterQb;
