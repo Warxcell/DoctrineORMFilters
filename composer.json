@@ -1,23 +1,24 @@
 {
-    "type": "library",
-    "license": "proprietary",
-    "require": {
-        "php": "^7.4 | ^8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Arxy\\DoctrineORMFilters\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Arxy\\DoctrineORMFilters\\Tests\\": "tests/"
-        }
-    },
-    "name": "arxy/doctrine-orm-filters",
-    "description": "The missing ORM Filters Library.",
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "doctrine/orm": "^2.8"
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Arxy\\DoctrineORMFilters\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Arxy\\DoctrineORMFilters\\Tests\\": "tests/"
+    }
+  },
+  "name": "arxy/doctrine-orm-filters",
+  "description": "The missing ORM Filters Library.",
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "doctrine/orm": "^2.8",
+    "vimeo/psalm": "^5.6"
+  }
 }
