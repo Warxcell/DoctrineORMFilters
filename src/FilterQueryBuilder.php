@@ -7,6 +7,7 @@ namespace Arxy\DoctrineORMFilters;
 use Doctrine\ORM\QueryBuilder;
 
 use function call_user_func_array;
+use function ucfirst;
 
 /**
  * @phpstan-type Filter callable(self, mixed): void
@@ -30,6 +31,11 @@ final class FilterQueryBuilder
          */
         private readonly array $filters
     ) {
+    }
+
+    public function makeAlias(string $alias): string
+    {
+        return $this->alias.ucfirst($alias);
     }
 
     public function appendFilter(string $filterName, mixed $value): bool
