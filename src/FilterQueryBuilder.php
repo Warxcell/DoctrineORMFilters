@@ -33,9 +33,13 @@ final class FilterQueryBuilder
     ) {
     }
 
+    /**
+     * @param literal-string $alias
+     * @return literal-string
+     */
     public function makeAlias(string $alias): string
     {
-        return $this->alias.ucfirst($alias);
+        return $this->alias . ucfirst($alias);
     }
 
     public function appendFilter(string $filterName, mixed $value): bool
