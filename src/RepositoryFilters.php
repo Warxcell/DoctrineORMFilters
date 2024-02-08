@@ -34,10 +34,7 @@ trait RepositoryFilters
         $filterQb = new FilterQueryBuilder($queryBuilder, $alias, $this->getFilters());
 
         foreach ($filterBy as $filter => $value) {
-            if (!is_array($value)) {
-                $value = [$value];
-            }
-            $filterQb->appendFilter($filter, ...$value);
+            $filterQb->appendFilter($filter, $value);
         }
 
         return $filterQb;

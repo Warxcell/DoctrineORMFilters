@@ -7,6 +7,7 @@ namespace Arxy\DoctrineORMFilters;
 use Doctrine\ORM\QueryBuilder;
 
 use function call_user_func_array;
+use function is_array;
 use function ucfirst;
 
 /**
