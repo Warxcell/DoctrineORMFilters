@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Arxy\DoctrineORMFilters;
 
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-
-use function is_array;
 
 /**
  * @phpstan-import-type Filters from FilterQueryBuilder
@@ -40,6 +40,9 @@ trait RepositoryFilters
         return $filterQb;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByFilters(iterable $filterBy): ?object
     {
         return $this->createQueryBuilderByFilters('entity', $filterBy)->queryBuilder->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_OBJECT);
@@ -55,6 +58,8 @@ trait RepositoryFilters
 
     /**
      * @param iterable<string, mixed> $filterBy
+     * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     public function getSingleResultByFilters(iterable $filterBy): object
     {
